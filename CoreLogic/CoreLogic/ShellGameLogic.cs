@@ -147,12 +147,13 @@ namespace CoreLogic
                 return true;
             }
 
+            // if player guess wrong twice this should add a strike 
             if (!Items[itemId].AlreadyChecked)
             {
                 // Raise Event Match Not Made
                 MatchNotMade?.Invoke(this, new NoMatchEventArgs() { IsStrike = false });
 
-                missedCount++;
+                missedCount++; 
 
                 Items[itemId].AlreadyChecked = true;
             }
