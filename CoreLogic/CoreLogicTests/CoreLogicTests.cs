@@ -10,7 +10,7 @@ namespace CoreLogicTests
         private ShellGameLogic CreateCoreLogic()
         {
             Mock<LMRRandom> rand = new Mock<LMRRandom>();  // the creation of random and what class it should use
-            rand.Setup(r => r.Next(0, 3)).Returns(2); // getting your random number
+            rand.Setup(r => r.Next(0, 3)).Returns(2); // Used for testing, the number should be Two otherwise your programs broke yo'
             return new ShellGameLogic(rand.Object, 3, 3);  // returning it 
         }
 
