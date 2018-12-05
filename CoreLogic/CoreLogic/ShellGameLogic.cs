@@ -122,7 +122,7 @@ namespace CoreLogic
         // Did we already check this item for this turn? find out here
         public bool CheckForItem(int itemId)
         {
-            CheckingItem?.Invoke(this, new ItemEventArgs() { Id = itemId });
+            CheckingItem?.Invoke(this, new ItemEventArgs() { Id = itemId });  
 
             if (Items[itemId].Id == itemLocation)
             {
@@ -141,7 +141,7 @@ namespace CoreLogic
                 }
                 else  // If a correct match is made take action below to determine score for player 
                 {
-                    // Raise Match Made Event
+                    // Raise Match Made Event, will also add to players score
                     MatchMade?.Invoke(this, new MatchEventArgs() { Id = Items[itemId].Id, Score = score });
                 }
 
