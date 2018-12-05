@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 
 namespace CoreLogic
 {
-    // Was Orginally called Class1
+    // used with MatchEventArgs, will provide the assist in score for player
     public class ItemEventArgs: EventArgs 
     {
         public int Id = int.MinValue;
     }
 
+    // used to with class above /\ to provide a points (score) for player in the event of a correct match. 
     public class MatchEventArgs : ItemEventArgs
     {
         public int Score;
     }
 
+    // If no match? was it a strike
     public class NoMatchEventArgs : EventArgs
     {
         public bool IsStrike;
@@ -137,7 +139,7 @@ namespace CoreLogic
                     // Raise Event No Match 
                     MatchNotMade?.Invoke(this, new NoMatchEventArgs() { IsStrike = true });
                 }
-                else
+                else  // If a correct match is made take action below to determine score for player 
                 {
                     // Raise Match Made Event
                     MatchMade?.Invoke(this, new MatchEventArgs() { Id = Items[itemId].Id, Score = score });
