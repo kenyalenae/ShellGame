@@ -113,18 +113,18 @@ namespace CoreLogicTests
             sut.CheckForItem(0);  // expecting to return false
             sut.CheckForItem(1);  // expecting to return false
             sut.CheckForItem(2);  // expecting to return True
-            sut.ResetItems();
+            sut.ResetItems();  // resetting round 
 
             // Right on 2nd try 
             sut.CheckForItem(1);  // expecting to return false
             sut.CheckForItem(2);  // expecting to return True, Winner, get points 
-            sut.ResetItems();
+            sut.ResetItems();  // resetting round 
 
             // Strike 2
             sut.CheckForItem(0);  // expecting to return false
             sut.CheckForItem(1);  // expecting to return false
             sut.CheckForItem(2);  // expecting to return True
-            sut.ResetItems();
+            sut.ResetItems();  // resetting round 
 
             // Assert... The test should show you have two strikes. 
             Assert.Equal(2, sut.Strikes);
@@ -132,34 +132,35 @@ namespace CoreLogicTests
 
         [Fact]
 
+        // game over test
         public void GivenPlayer_StrikesOut_ThenTheGameShouldBeOver()
         {
             // Arrange 
             bool called = false;
             var sut = CreateCoreLogic();
-            sut.GameOver += (object sender, EventArgs e) => called = true;
+            sut.GameOver += (object sender, EventArgs e) => called = true;  // assuming the gameover happens called should happen
 
             // Act
 
             // Strike 1
-            sut.CheckForItem(0);
-            sut.CheckForItem(1);
-            sut.CheckForItem(2);
-            sut.ResetItems();
+            sut.CheckForItem(0);  // expecting to return false
+            sut.CheckForItem(1);  // expecting to return false
+            sut.CheckForItem(2);  // expecting to return True
+            sut.ResetItems();   // resetting round 
 
             // Strike 2
-            sut.CheckForItem(1);
-            sut.CheckForItem(0);
-            sut.CheckForItem(2);
-            sut.ResetItems();
+            sut.CheckForItem(1);  // expecting to return false
+            sut.CheckForItem(0);  // expecting to return false
+            sut.CheckForItem(2);  // expecting to return True
+            sut.ResetItems();  // resetting round 
 
             // Strike 3
-            sut.CheckForItem(0);
-            sut.CheckForItem(1);
-            sut.CheckForItem(2);
-            sut.ResetItems();
+            sut.CheckForItem(0);  // expecting to return false
+            sut.CheckForItem(1);  // expecting to return false, called should become true 
+            sut.CheckForItem(2);  // expecting to return True
+            sut.ResetItems();  // Resetting game 
 
-            // Assert
+            // Assert... Should be true to know gameover is working 
             Assert.True(called);
         }
 
