@@ -114,7 +114,7 @@ namespace CoreLogic
             ResetComplete?.Invoke(this, EventArgs.Empty);
         }
 
-        // Did we already check this item? find out here
+        // Did we already check this item for this turn? find out here
         public bool CheckForItem(int itemId)
         {
             CheckingItem?.Invoke(this, new ItemEventArgs() { Id = itemId });
