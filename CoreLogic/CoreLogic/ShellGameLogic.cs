@@ -85,6 +85,7 @@ namespace CoreLogic
             }
         }
 
+        // This is for making the small table boxes (shells) disappear. 
         private void CloseItems()
         {
             for (int i = 0; i < numberOfItems; i++)
@@ -93,20 +94,22 @@ namespace CoreLogic
             }
         }
 
+        // for reseting game or round
         public void ResetItems()
         {
             // Raise Event ItemReset
             ItemReset?.Invoke(this, EventArgs.Empty);
 
+            // This checks if you have three or more strikes to end your game 
             if (Strikes >= totalStrikes)
             {
                 // Raise Game Over Event
                 GameOver?.Invoke(this, EventArgs.Empty);
 
-                Strikes = 0;
+                Strikes = 0;  // Fresh start, for a new game 
             }
 
-            missedCount = 0;
+            missedCount = 0;  // In case you missed any will reset this for next round or next game 
 
             GenerateRandomNumber();
 
@@ -140,7 +143,7 @@ namespace CoreLogic
                     MatchMade?.Invoke(this, new MatchEventArgs() { Id = Items[itemId].Id, Score = score });
                 }
 
-                CloseItems();
+                CloseItems();  // makes the little table boxes disappear
 
                 StartTurn?.Invoke(this, EventArgs.Empty);
 
