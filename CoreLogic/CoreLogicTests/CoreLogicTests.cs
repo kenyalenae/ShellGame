@@ -166,6 +166,7 @@ namespace CoreLogicTests
 
         [Fact]
 
+        // Checks that corelogic's "public event MatchMade" is working for matching 
         public void GivenPlayer_FindsAMatch_ShouldRaiseMatchFoundEventWithId()
         {
             // Arrange 
@@ -174,7 +175,7 @@ namespace CoreLogicTests
             sut.MatchMade += (object sender, MatchEventArgs e) => idSet = e.Id >= 0;
 
             // Act
-            sut.CheckForItem(2);
+            sut.CheckForItem(2);  // expecting to return True
 
             // Assert
             Assert.True(idSet);
@@ -182,6 +183,7 @@ namespace CoreLogicTests
 
         [Fact]
 
+        // Checks that corelogic's "public event MatchNotMade" is working for matching 
         public void GivenPlayer_DoesntFindAMatch_ShouldRaiseMatchNotFoundWithIsStrikeFalse()
         {
             // Arrange 
@@ -190,7 +192,7 @@ namespace CoreLogicTests
             sut.MatchNotMade += (object sender, NoMatchEventArgs e) => isStrike = e.IsStrike;
 
             // Act
-            sut.CheckForItem(0);
+            sut.CheckForItem(0);  // expecting to return False
 
             // Assert
             Assert.False(isStrike);
@@ -206,9 +208,9 @@ namespace CoreLogicTests
             sut.MatchNotMade += (object sender, NoMatchEventArgs e) => isStrike = e.IsStrike;
 
             // Act
-            sut.CheckForItem(0);
-            sut.CheckForItem(1);
-            sut.CheckForItem(2);
+            sut.CheckForItem(0);  // expecting to return False
+            sut.CheckForItem(1);  // expecting to return False
+            sut.CheckForItem(2);  // expecting to return True
 
             // Assert
             Assert.True(isStrike);
@@ -224,7 +226,7 @@ namespace CoreLogicTests
             sut.StartTurn += (object sender, EventArgs e) => called = true;
 
             // Act
-            sut.CheckForItem(2);
+            sut.CheckForItem(2);  // expecting to return True
 
             // Assert
             Assert.True(called);
@@ -240,7 +242,7 @@ namespace CoreLogicTests
             sut.CheckingItem += (object sender, ItemEventArgs e) => called = e.Id >= 0;
 
             // Act
-            sut.CheckForItem(1);
+            sut.CheckForItem(1);  // expecting to return False
 
             // Assert
             Assert.True(called);
@@ -256,7 +258,7 @@ namespace CoreLogicTests
             sut.SelectedItem += (object sender, ItemEventArgs e) => called = e.Id >= 0;
 
             // Act
-            sut.CheckForItem(2);
+            sut.CheckForItem(2);  // expecting to return True
 
             // Assert
             Assert.True(called);
