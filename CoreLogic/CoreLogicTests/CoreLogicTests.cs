@@ -17,7 +17,7 @@ namespace CoreLogicTests
         // To make sure we have Xunit set up correctly Add "Fact" and a "." to test working correctly
         [Fact]
 
-        // These are used to check if an item is there test
+        // These are used to check if an item is there test, Title of test should explain what it is doing. 
         public void GivenPlayer_SelectsCorrectItemOnFirstTry_ShouldReturnTrue()
         {
             // Arrange 
@@ -32,6 +32,7 @@ namespace CoreLogicTests
 
         [Fact]
 
+        // For if the player selects the incorrect one. Read title for what it does. 
         public void GivenPlayer_SelectsIncorrectItemOnFirstTry_ShouldReturnFalse()
         {
             // Arrange 
@@ -46,16 +47,17 @@ namespace CoreLogicTests
 
         [Fact]
 
+        // For if the player selects the incorrect one or two. Read title for what it does. 
         public void GivenPlayer_SelectsIncorrectItemOnFirstTryAndSecondTry_ShouldReturnFalse()
         {
             // Arrange 
             ShellGameLogic sut = CreateCoreLogic();
 
             // Act
-            bool result = sut.CheckForItem(1);
+            bool result = sut.CheckForItem(1);  // Trying one seeing its not right (false)
             if (!result)
             {
-                result = sut.CheckForItem(0);
+                result = sut.CheckForItem(0);  // Then trying Zero (second try) and seeing its not right (false). 
             }
 
             // Assert
