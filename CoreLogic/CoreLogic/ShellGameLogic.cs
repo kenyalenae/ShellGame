@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace CoreLogic
 {
-    public class ItemEventArgs: EventArgs
+    // Was Orginally called Class1
+    public class ItemEventArgs: EventArgs 
     {
         public int Id = int.MinValue;
     }
