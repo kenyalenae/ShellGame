@@ -23,7 +23,7 @@ namespace CoreLogicTests
             // Arrange 
             ShellGameLogic sut = CreateCoreLogic();
 
-            // Act
+            // Act... This test is checking for the number 2 from line 13 above and should return true. 
             bool result = sut.CheckForItem(2);
 
             // Assert
