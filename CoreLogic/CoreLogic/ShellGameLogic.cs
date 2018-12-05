@@ -50,6 +50,7 @@ namespace CoreLogic
 
         public int Strikes = 0;
 
+        // 
         public ShellGameLogic(int numberOfItems, int totalStrikes) : this(new NetRandom(), numberOfItems, totalStrikes)
         {
 
