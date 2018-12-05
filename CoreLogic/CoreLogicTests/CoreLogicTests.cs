@@ -236,6 +236,7 @@ namespace CoreLogicTests
 
         [Fact]
 
+        // test for if the player selects an item 
         public void GivenPlayer_SelectsItem_ShouldRaiseCheckingItemEvent()
         {
             // Arrange 
@@ -252,6 +253,7 @@ namespace CoreLogicTests
 
         [Fact]
 
+        // test for if the player selects the correct item 
         public void GivenPlayer_SelectsRightItem_ShouldRaiseSelectedItemEvent()
         {
             // Arrange 
@@ -268,6 +270,7 @@ namespace CoreLogicTests
 
         [Fact]
 
+        // test used for after you reset items 
         public void GiveResetItems_IsCalled_ThenItemResetEventShouldBeRaised()
         {
             // Arrange 
@@ -284,6 +287,7 @@ namespace CoreLogicTests
 
         [Fact]
 
+          // test used for after you complete reset items 
         public void GiveResetItems_IsCalled_ThenResetCompleteEventShouldBeRaised()
         {
             // Arrange 
