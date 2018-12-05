@@ -200,6 +200,7 @@ namespace CoreLogicTests
 
         [Fact]
 
+        // Title below says it all 
         public void GivenPlayer_StrikesOut_ShouldRaiseMatchNotFoundWithIsStrikeTrue()
         {
             // Arrange 
@@ -218,6 +219,7 @@ namespace CoreLogicTests
 
         [Fact]
 
+        // used to check if player got answer correct with start turn methods being called. 
         public void GivenPlayer_ChecksAnItem_StartTurnEventShouldBeRaised()
         {
             // Arrange 
