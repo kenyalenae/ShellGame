@@ -1,6 +1,6 @@
 ﻿using System;
-using CoreLogic;
-using Xunit;
+using CoreLogic;  //This calls CoreLogic for use in this class, add the reference by right clicking on references and then under projects find it
+using Xunit;  //Xunit and Xunit visual studio library to help us. 
 using Moq;
 
 namespace CoreLogicTests
@@ -14,8 +14,10 @@ namespace CoreLogicTests
             return new ShellGameLogic(rand.Object, 3, 3);
         }
 
+        // To make sure we have Xunit set up correctly Add "Fact" and a "." to test working correctly
         [Fact]
 
+        // These are used to check if an item is there test
         public void GivenPlayer_SelectsCorrectItemOnFirstTry_ShouldReturnTrue()
         {
             // Arrange 
