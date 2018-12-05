@@ -126,10 +126,10 @@ namespace CoreLogic
                 // 1st try = 3 points
                 // 2nd try = 2 points
                 // 3rd try = 0 points
-                int score = (numberOfItems - missedCount);
-                if (score == 1)
+                int score = (numberOfItems - missedCount);  // By doing number of items minus misses we get the score for the player if 1 make it zero
+                if (score == 1)  // if the score is one we need to make it zero instead. 
                 {
-                    Strikes++;
+                    Strikes++;  // This adds a game strike for the player if three...Your out of here!
 
                     // Raise Event No Match 
                     MatchNotMade?.Invoke(this, new NoMatchEventArgs() { IsStrike = true });
