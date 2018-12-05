@@ -50,13 +50,13 @@ namespace CoreLogic
 
         public int Strikes = 0;
 
-        // 
+        // This is if you create a new game logic class you only need to pass in the number of items 
         public ShellGameLogic(int numberOfItems, int totalStrikes) : this(new NetRandom(), numberOfItems, totalStrikes)
         {
 
         }
 
-        // Part of the ShellGameLogic that calls methods to genereate a random number
+        // Part of the ShellGameLogic that calls methods to genereate a random number, also used in testing should give back the number 2
         public ShellGameLogic(LMRRandom rand, int numberOfItems, int totalStrikes)
         {
             this.rand = rand;
