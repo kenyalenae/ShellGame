@@ -1,7 +1,7 @@
 ﻿using System;
 using CoreLogic;  //This calls CoreLogic for use in this class, add the reference by right clicking on references and then under projects find it
 using Xunit;  //Xunit and Xunit visual studio library to help us. 
-using Moq;
+using Moq;  // This makes it easier to set up tests in your program 
 
 namespace CoreLogicTests
 {
