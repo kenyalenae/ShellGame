@@ -83,16 +83,17 @@ namespace CoreLogicTests
 
         [Fact]
 
+        // This test makes sure a strike happens if player selects what they already selected. 
         public void GivenPlayer_LosesRound_ShouldHaveAStrikeCountEvenIfReselectingPreviouslySelectedItem()
         {
             // Arrange 
             ShellGameLogic sut = CreateCoreLogic();
 
             // Act
-            sut.CheckForItem(0);
-            sut.CheckForItem(1);
-            sut.CheckForItem(0);
-            sut.CheckForItem(2);
+            sut.CheckForItem(0);  // expecting to return false
+            sut.CheckForItem(1);  // expecting to return false
+            sut.CheckForItem(0);  // expecting to return false, to make sure the player can't cheat there way out of a strike 
+            sut.CheckForItem(2);  // expecting to return True
 
             // Assert
             Assert.Equal(1, sut.Strikes);
@@ -100,6 +101,7 @@ namespace CoreLogicTests
 
         [Fact]
 
+        // If checking if one and two strikes will happen 
         public void GivenPlayer_StrikesOutThenWinsOnSecondTryAndStrikesOutAgain_ThenTheStrikeCountShouldBeTwo()
         {
             // Arrange 
@@ -108,23 +110,23 @@ namespace CoreLogicTests
             // Act
 
             // Strike 1
-            sut.CheckForItem(0);
-            sut.CheckForItem(1);
-            sut.CheckForItem(2);
+            sut.CheckForItem(0);  // expecting to return false
+            sut.CheckForItem(1);  // expecting to return false
+            sut.CheckForItem(2);  // expecting to return True
             sut.ResetItems();
 
             // Right on 2nd try 
-            sut.CheckForItem(1);
-            sut.CheckForItem(2);
+            sut.CheckForItem(1);  // expecting to return false
+            sut.CheckForItem(2);  // expecting to return True, Winner, get points 
             sut.ResetItems();
 
             // Strike 2
-            sut.CheckForItem(0);
-            sut.CheckForItem(1);
-            sut.CheckForItem(2);
+            sut.CheckForItem(0);  // expecting to return false
+            sut.CheckForItem(1);  // expecting to return false
+            sut.CheckForItem(2);  // expecting to return True
             sut.ResetItems();
 
-            // Assert
+            // Assert... The test should show you have two strikes. 
             Assert.Equal(2, sut.Strikes);
         }
 
