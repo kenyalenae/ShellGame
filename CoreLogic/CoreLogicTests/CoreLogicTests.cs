@@ -66,17 +66,18 @@ namespace CoreLogicTests
 
         [Fact]
 
+        // test for if the player guess wrong twice 
         public void GivenPlayer_LosesRound_ShouldHaveStrikeCountAndItShouldBeOne()
         {
             // Arrange 
             ShellGameLogic sut = CreateCoreLogic();
 
             // Act
-            sut.CheckForItem(0);
-            sut.CheckForItem(1);
-            sut.CheckForItem(2);
+            sut.CheckForItem(0);  // expecting to return false
+            sut.CheckForItem(1);  // expecting to return false
+            sut.CheckForItem(2);  // expecting to return True
 
-            // Assert
+            // Assert...This test should add a strike for the user 
             Assert.Equal(1, sut.Strikes);
         }
 
