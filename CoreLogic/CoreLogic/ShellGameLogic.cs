@@ -40,7 +40,7 @@ namespace CoreLogic
 
         private readonly int numberOfItems;
 
-        private int itemLocation;
+        private int itemLocation;  // This is for which shell (little boxs on the table) is the item (pea) located. 
 
         private LMRRandom rand;
 
@@ -55,6 +55,7 @@ namespace CoreLogic
 
         }
 
+        // Part of the ShellGameLogic that calls methods to genereate a random number
         public ShellGameLogic(LMRRandom rand, int numberOfItems, int totalStrikes)
         {
             this.rand = rand;
@@ -67,6 +68,7 @@ namespace CoreLogic
             ResetItems();
         }
 
+        // Will create random numbers for game use
         private void GenerateRandomNumber()
         {
             itemLocation = rand.Next(0, numberOfItems);
