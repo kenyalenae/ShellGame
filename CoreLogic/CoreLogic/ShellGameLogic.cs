@@ -44,11 +44,11 @@ namespace CoreLogic
 
         private LMRRandom rand;
 
-        private int totalStrikes;
+        private int totalStrikes;  // Used to keep track of how many strikes you currently have in the game 
 
-        private int missedCount;
+        private int missedCount;  // Used per round to assist in keeping track is you got something wrong. 
 
-        public int Strikes = 0;
+        public int Strikes = 0;  // This will cause you to get less points if you guess wrong. 
 
         // This is if you create a new game logic class you only need to pass in the number of items 
         public ShellGameLogic(int numberOfItems, int totalStrikes) : this(new NetRandom(), numberOfItems, totalStrikes)
@@ -114,6 +114,7 @@ namespace CoreLogic
             ResetComplete?.Invoke(this, EventArgs.Empty);
         }
 
+        // Did we already check this item? find out here
         public bool CheckForItem(int itemId)
         {
             CheckingItem?.Invoke(this, new ItemEventArgs() { Id = itemId });
