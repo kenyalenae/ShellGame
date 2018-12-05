@@ -147,7 +147,7 @@ namespace CoreLogic
 
                 CloseItems();  // makes the little table boxes disappear
 
-                StartTurn?.Invoke(this, EventArgs.Empty);
+                StartTurn?.Invoke(this, EventArgs.Empty);  // Test event starting your turn happened
 
                 return true;
             }
