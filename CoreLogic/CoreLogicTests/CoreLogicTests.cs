@@ -9,9 +9,9 @@ namespace CoreLogicTests
     {
         private ShellGameLogic CreateCoreLogic()
         {
-            Mock<LMRRandom> rand = new Mock<LMRRandom>();
-            rand.Setup(r => r.Next(0, 3)).Returns(2);
-            return new ShellGameLogic(rand.Object, 3, 3);
+            Mock<LMRRandom> rand = new Mock<LMRRandom>();  // the creation of random and what class it should use
+            rand.Setup(r => r.Next(0, 3)).Returns(2); // getting your random number
+            return new ShellGameLogic(rand.Object, 3, 3);  // returning it 
         }
 
         // To make sure we have Xunit set up correctly Add "Fact" and a "." to test working correctly
