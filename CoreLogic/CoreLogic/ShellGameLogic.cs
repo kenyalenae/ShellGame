@@ -124,7 +124,7 @@ namespace CoreLogic
         {
             CheckingItem?.Invoke(this, new ItemEventArgs() { Id = itemId });  
 
-            if (Items[itemId].Id == itemLocation)
+            if (Items[itemId].Id == itemLocation)  // The Item(box) has been selected
             {
                 SelectedItem?.Invoke(this, new ItemEventArgs() { Id = itemId });
 
@@ -152,7 +152,7 @@ namespace CoreLogic
                 return true;
             }
 
-            // if player guess wrong twice this should add a strike 
+            // if player guess wrong twice at the same location, it won't count against them 
             if (!Items[itemId].AlreadyChecked)
             {
                 // Raise Event Match Not Made
@@ -160,6 +160,7 @@ namespace CoreLogic
 
                 missedCount++; 
 
+                // this shows the user already checked that item 
                 Items[itemId].AlreadyChecked = true;
             }
 
