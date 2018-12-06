@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
+// Res is short for resources 
+// This is if you every want to change stuff, its easier to to it here. 
 public static class Res
 {
     public static readonly string GameController = "GameController";
