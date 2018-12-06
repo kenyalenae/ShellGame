@@ -140,7 +140,7 @@ public class GameController : MonoBehaviour
         // Used for displaying the score and current strikes when game over 
         Debug.Log($"GAME OVER. Score: {score} Strikes: {coreLogic.Strikes}");
 
-        HighScore.Value = score;
+        HighScore.Value = score;  // Will update the Highscore permanently if better then previous highscore 
         HighScore.SaveHighScore();
 
         score = 0;  // Resetting score to zero, for next game
@@ -185,7 +185,7 @@ public class GameController : MonoBehaviour
     {
         score += e.Score;  // Adds to your points, Yeah You!
 
-        HighScore.Value = score;
+        HighScore.Value = score;  // Will update the Highscore if better then previous highscore 
         UpdateHighScore();
 
         UpdateScore();  // Calls the method to update your score when doing well 
@@ -200,6 +200,7 @@ public class GameController : MonoBehaviour
 
     private void UpdateHighScore()
     {
+        // This is for the display text to user and will update the highscore if better then shown highscore
         highScoreText.text = $"{Res.HighScore}{HighScore.Value}";
     }
 
@@ -212,7 +213,7 @@ public class GameController : MonoBehaviour
         strikeText.gameObject.SetActive(true);  // allowing user to finially see it 
     }
 
-    // This will hide strike text (XXX) until another method activates it for the user to see. 
+    // This will hide strike text ( X X X) until another method activates it for the user to see. 
     private void HideStrikeText()
     {
         strikeText.gameObject.SetActive(false);
