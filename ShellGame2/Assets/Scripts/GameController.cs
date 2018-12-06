@@ -93,10 +93,10 @@ public class GameController : MonoBehaviour
 
     private void PrepareItemsForTurn()
     {
-        for (int i = 0; i < itemContainers.Length; i++)
+        for (int i = 0; i < itemContainers.Length; i++)  // Looping foreach box items 
         {
-            itemContainers[i].GetComponent<MeshRenderer>().enabled = true;
-            itemContainers[i].transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+            itemContainers[i].GetComponent<MeshRenderer>().enabled = true;  // Make sure Mesh on boxes are enabled, to prevent player from seeing the pea
+            itemContainers[i].transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;  // This makes sure all the peas are hidden
         }
     }
 
@@ -122,6 +122,7 @@ public class GameController : MonoBehaviour
         Invoke(nameof(StartTurn), 1.2f); // delay to allow for animations
     }
 
+    // after disabling the items from user guess, this method will restore input from user
     private void CoreLogic_ItemReset(object sender, EventArgs e)
     {
         Debug.Log("Item Reset");
@@ -152,21 +153,21 @@ public class GameController : MonoBehaviour
         Debug.Log("Reset Complete");
     }
 
-    private void CoreLogic_SelectedItem(object sender, ItemEventArgs e)
+    private void CoreLogic_SelectedItem(object sender, ItemEventArgs e)  // User clicking on item will activate this if the pea is inside
     {
         Debug.Log($"Selected Item: {e.Id}");
 
-        // Disable input
+        // Disable input, to prevent the user from selecting any of the other items 
         InputManager.Instance.PushInputDisable();
 
         // Show the pea / insert item
-        itemContainers[e.Id].transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+        itemContainers[e.Id].transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;  // Will show the pea to user
     }
 
-    private void CoreLogic_CheckingItem(object sender, ItemEventArgs e)
+    private void CoreLogic_CheckingItem(object sender, ItemEventArgs e)  // User clicking on item will activate this if the pea is not inside
     {
         Debug.Log($"Checking Item: {e.Id}");
-        itemContainers[e.Id].GetComponent<MeshRenderer>().enabled = false;
+        itemContainers[e.Id].GetComponent<MeshRenderer>().enabled = false;  // This removes the Mesh from the box making insides visiable for user 
     }
 
     private void CoreLogic_MatchNotMade(object sender, NoMatchEventArgs e)
@@ -181,7 +182,7 @@ public class GameController : MonoBehaviour
 
     private void CoreLogic_MatchMade(object sender, MatchEventArgs e)
     {
-        score += e.Score;
+        score += e.Score;  // Adds to your points, Yeah You!
 
         HighScore.Value = score;
         UpdateHighScore();
