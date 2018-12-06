@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using CoreLogic;
+using CoreLogic;  // this is our plug in, or game logic
 using System;
 using HoloToolkit.Unity.InputModule;
 using System.Text;
@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
 
     private ShellGameLogic coreLogic;
 
-    private static GameController instance;
+    private static GameController instance;  // to help make sure we only have one 
 
     private int score = 0;
 
@@ -27,6 +27,7 @@ public class GameController : MonoBehaviour
 
     private StringBuilder strikeTextStringBuilder = new StringBuilder(6);
 
+    // to help make sure we only have one 
     public static GameController Instance
     {
         get
@@ -75,8 +76,9 @@ public class GameController : MonoBehaviour
 
     private void StartTurn()
     {
+        // Prepare items for the new turn and loop through the containers and make sure the peas are covered up 
         PrepareItemsForTurn();
-
+        // Hide the pea from the contianer so user can't see it, or cheat
         HideStrikeText();
 
         // Animate items 
@@ -97,6 +99,7 @@ public class GameController : MonoBehaviour
         }
     }
 
+    // Connects us to the main game logic and processes 
     private void HookupCoreLogicEvents()
     {
         coreLogic.StartTurn += CoreLogic_StartTurn;
@@ -215,6 +218,7 @@ public class GameController : MonoBehaviour
         coreLogic.CheckForItem(itemId);
     }
 
+    // If you do events, make sure you also distroy them when done with them
     private void OnDestroy()
     {
         coreLogic.StartTurn -= CoreLogic_StartTurn;
