@@ -25,7 +25,8 @@ public class GameController : MonoBehaviour
     private TextMesh scoreText;
     private TextMesh highScoreText;
 
-    private StringBuilder strikeTextStringBuilder = new StringBuilder(6);
+    //                                                               \/ Biggest the visiable striketext for user viewing will ever be ( X X X)  
+    private StringBuilder strikeTextStringBuilder = new StringBuilder(6);  // used for keeping track of strikes for showing
 
     // to help make sure we only have one 
     public static GameController Instance
@@ -143,9 +144,9 @@ public class GameController : MonoBehaviour
         HighScore.SaveHighScore();
 
         score = 0;  // Resetting score to zero, for next game
-        UpdateScore();
+        UpdateScore();  // this will display 0 for the player 
 
-        strikeTextStringBuilder.Clear();
+        strikeTextStringBuilder.Clear();  // getting rid of all the strikes in striketext
     }
 
     private void CoreLogic_ResetComplete(object sender, EventArgs e)
@@ -174,9 +175,9 @@ public class GameController : MonoBehaviour
     {
         Debug.Log($"No Match Made. IsStrike: {e.IsStrike}");
 
-        if (e.IsStrike)
+        if (e.IsStrike)  // Prevent player from seeing strike if the just get first on wrong, but second guess right 
         {
-            ShowStrikeText();
+            ShowStrikeText();  // This will show strike X to user 
         }
     }
 
@@ -187,12 +188,13 @@ public class GameController : MonoBehaviour
         HighScore.Value = score;
         UpdateHighScore();
 
-        UpdateScore();
+        UpdateScore();  // Calls the method to update your score when doing well 
         Debug.Log($"Match Made. Id: {e.Id} Score: {e.Score} Total Score: {score}");
     }
 
     private void UpdateScore()
     {
+        // This is for the display text to user and will update the score to show how they are doing 
         scoreText.text = $"{Res.Score}{score}";
     }
 
@@ -201,15 +203,16 @@ public class GameController : MonoBehaviour
         highScoreText.text = $"{Res.HighScore}{HighScore.Value}";
     }
 
-    private void ShowStrikeText()
+    private void ShowStrikeText() 
     {
-        strikeTextStringBuilder.Append(Res.StrikeX);
+        strikeTextStringBuilder.Append(Res.StrikeX); // adding the new strike to strikeText
 
-        strikeText.text = strikeTextStringBuilder.ToString();
+        strikeText.text = strikeTextStringBuilder.ToString();  // Setting the strikeText's text 
 
-        strikeText.gameObject.SetActive(true);
+        strikeText.gameObject.SetActive(true);  // allowing user to finially see it 
     }
 
+    // This will hide strike text (XXX) until another method activates it for the user to see. 
     private void HideStrikeText()
     {
         strikeText.gameObject.SetActive(false);
