@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
 
     private static GameController instance;  // to help make sure we only have one 
 
-    private int score = 0;
+    private int score = 0;  // When the game starts up, this will cause the game to have a starting value of Zero
 
     private TextMesh strikeText;
     private TextMesh scoreText;
@@ -134,12 +134,13 @@ public class GameController : MonoBehaviour
 
     private void CoreLogic_GameOver(object sender, EventArgs e)
     {
+        // Used for displaying the score and current strikes when game over 
         Debug.Log($"GAME OVER. Score: {score} Strikes: {coreLogic.Strikes}");
 
         HighScore.Value = score;
         HighScore.SaveHighScore();
 
-        score = 0;
+        score = 0;  // Resetting score to zero, for next game
         UpdateScore();
 
         strikeTextStringBuilder.Clear();
@@ -213,10 +214,10 @@ public class GameController : MonoBehaviour
     }
 
     // used for when the user clicks in game 
-    public void CheckForItem(int itemId)
+    public void CheckForItem(int itemId)  
     {
         Debug.Log($"Check for pea: {itemId}");
-        coreLogic.CheckForItem(itemId);
+        coreLogic.CheckForItem(itemId);  // Will raise MatchMade or MatchNotMade in CoreLogic\ShellGameLogic.cs
     }
 
     // If you do events, make sure you also distroy them when done with them
