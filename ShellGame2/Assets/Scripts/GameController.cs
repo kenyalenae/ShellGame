@@ -212,6 +212,7 @@ public class GameController : MonoBehaviour
         strikeText.gameObject.SetActive(false);
     }
 
+    // used for when the user clicks in game 
     public void CheckForItem(int itemId)
     {
         Debug.Log($"Check for pea: {itemId}");
