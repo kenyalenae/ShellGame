@@ -76,9 +76,10 @@ public class GameController : MonoBehaviour
 
     private void StartTurn()
     {
-        // Prepare items for the new turn and loop through the containers and make sure the peas are covered up 
-        PrepareItemsForTurn();
+        // Prepare items for the new turn and loop through the containers and make sure the peas are covered up
         // Hide the pea from the contianer so user can't see it, or cheat
+        PrepareItemsForTurn();
+        
         HideStrikeText();
 
         // Animate items 
