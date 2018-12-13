@@ -21,7 +21,7 @@ namespace CoreLogic
         // Fills an array with random numbers
         public abstract void NextBytes(byte[] buffer);
 
-         // returns a floating-point number that is equal or greater than 0.0 and less then 1.0
+        // returns a floating-point number that is equal or greater than 0.0 and less then 1.0
         public abstract double NextDouble();
     }
 }

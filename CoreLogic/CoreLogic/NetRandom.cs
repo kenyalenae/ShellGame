@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace CoreLogic
 {
-    //NetRandom inherits for \/ (LMRRandom)                          
+    //NetRandom inherits for \/ (LMRRandom) 
     public class NetRandom : LMRRandom
     {
-        // These are used for random placement of the "pea" in the boxes, it what we will call when checking if the box contians something. 
+        // These are used for random placement of the "pea" in the boxes, it what we will call when checking if the box contians something.
         private Random rand;
 
         public NetRandom(int seed)

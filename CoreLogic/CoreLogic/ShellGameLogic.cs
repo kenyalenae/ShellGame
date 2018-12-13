@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CoreLogic
 {
     // used with MatchEventArgs, will provide the assist in score for player
-    public class ItemEventArgs: EventArgs 
+    public class ItemEventArgs: EventArgs
     {
         public int Id = int.MinValue;
     }
@@ -42,15 +42,15 @@ namespace CoreLogic
 
         private readonly int numberOfItems;
 
-        private int itemLocation;  // This is for which shell (little boxs on the table) is the item (pea) located. 
+        private int itemLocation; // This is for which shell (little boxs on the table) is the item (pea) located. 
 
         private LMRRandom rand;
 
-        private int totalStrikes;  // Used to keep track of how many strikes you currently have in the game 
+        private int totalStrikes; // Used to keep track of how many strikes you currently have in the game 
 
-        private int missedCount;  // Used per round to assist in keeping track is you got something wrong. 
+        private int missedCount; // Used per round to assist in keeping track is you got something wrong. 
 
-        public int Strikes = 0;  // This will cause you to get less points if you guess wrong. 
+        public int Strikes = 0; // This will cause you to get less points if you guess wrong.
 
         // This is if you create a new game logic class you only need to pass in the number of items 
         public ShellGameLogic(int numberOfItems, int totalStrikes) : this(new NetRandom(), numberOfItems, totalStrikes)
@@ -87,7 +87,7 @@ namespace CoreLogic
             }
         }
 
-        // This is for making the small table boxes (shells) disappear. 
+        // This is for making the small table boxes (shells) disappear.
         private void CloseItems()
         {
             for (int i = 0; i < numberOfItems; i++)
@@ -102,16 +102,16 @@ namespace CoreLogic
             // Raise Event ItemReset
             ItemReset?.Invoke(this, EventArgs.Empty);
 
-            // This checks if you have three or more strikes to end your game 
+            // This checks if you have three or more strikes to end your game
             if (Strikes >= totalStrikes)
             {
                 // Raise Game Over Event
                 GameOver?.Invoke(this, EventArgs.Empty);
 
-                Strikes = 0;  // Fresh start, for a new game 
+                Strikes = 0; // Fresh start, for a new game 
             }
 
-            missedCount = 0;  // In case you missed any will reset this for next round or next game 
+            missedCount = 0; // In case you missed any will reset this for next round or next game 
 
             GenerateRandomNumber();
 
@@ -122,32 +122,32 @@ namespace CoreLogic
         // Did we already check this item for this turn? find out here
         public bool CheckForItem(int itemId)
         {
-            CheckingItem?.Invoke(this, new ItemEventArgs() { Id = itemId });  
+            CheckingItem?.Invoke(this, new ItemEventArgs() { Id = itemId });
 
-            if (Items[itemId].Id == itemLocation)  // The Item(box) has been selected
+            if (Items[itemId].Id == itemLocation) // The Item(box) has been selected
             {
                 SelectedItem?.Invoke(this, new ItemEventArgs() { Id = itemId });
 
                 // 1st try = 3 points
                 // 2nd try = 2 points
                 // 3rd try = 0 points
-                int score = (numberOfItems - missedCount);  // By doing number of items minus misses we get the score for the player if 1 make it zero
-                if (score == 1)  // if the score is one we need to make it zero instead. 
+                int score = (numberOfItems - missedCount); // By doing number of items minus misses we get the score for the player if 1 make it zero
+                if (score == 1) // if the score is one we need to make it zero instead. 
                 {
-                    Strikes++;  // This adds a game strike for the player if three...Your out of here!
+                    Strikes++; // This adds a game strike for the player if three...Your out of here!
 
                     // Raise Event No Match 
                     MatchNotMade?.Invoke(this, new NoMatchEventArgs() { IsStrike = true });
                 }
-                else  // If a correct match is made take action below to determine score for player 
+                else // If a correct match is made take action below to determine score for player 
                 {
                     // Raise Match Made Event, will also add to players score
                     MatchMade?.Invoke(this, new MatchEventArgs() { Id = Items[itemId].Id, Score = score });
                 }
 
-                CloseItems();  // makes the little table boxes disappear
+                CloseItems(); // makes the little table boxes disappear
 
-                StartTurn?.Invoke(this, EventArgs.Empty);  // Test event starting your turn happened
+                StartTurn?.Invoke(this, EventArgs.Empty); // Test event starting your turn happened
 
                 return true;
             }
@@ -158,9 +158,9 @@ namespace CoreLogic
                 // Raise Event Match Not Made
                 MatchNotMade?.Invoke(this, new NoMatchEventArgs() { IsStrike = false });
 
-                missedCount++; 
+                missedCount++;
 
-                // this shows the user already checked that item 
+                // this shows the user already checked that item
                 Items[itemId].AlreadyChecked = true;
             }
 
