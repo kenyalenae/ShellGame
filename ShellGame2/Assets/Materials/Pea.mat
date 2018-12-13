@@ -1,6 +1,3 @@
-//"pea" size was changed here to fit into the three boxes on the table. Color also changed under inspector and main maps, was set to green.
-// One of that main things is the pea is a child of the shell(or little box on the table). 
-
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000

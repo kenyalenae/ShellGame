@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using CoreLogic;  // this is our plug in, or game logic
+using CoreLogic; // this is our plug in, or game logic
 using System;
 using HoloToolkit.Unity.InputModule;
 using System.Text;
@@ -15,20 +15,27 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GameObject[] itemContainers;
 
+    [SerializeField]
+    private GameObject animatedObject;
+
     private ShellGameLogic coreLogic;
 
-    private static GameController instance;  // to help make sure we only have one 
+    private static GameController instance; // to help make sure we only have one instance
 
-    private int score = 0;  // When the game starts up, this will cause the game to have a starting value of Zero
+    private int score = 0; // When the game starts up, this will cause the game to have a starting value of Zero
 
     private TextMesh strikeText;
     private TextMesh scoreText;
     private TextMesh highScoreText;
 
-    //                                                               \/ Biggest the visiable striketext for user viewing will ever be ( X X X)  
-    private StringBuilder strikeTextStringBuilder = new StringBuilder(6);  // used for keeping track of strikes for showing
+    //                                                               \/ Biggest the visiable striketext for user viewing will ever be ( X X X)
+    private StringBuilder strikeTextStringBuilder = new StringBuilder(6); // used for keeping track of strikes for showing
 
-    // to help make sure we only have one 
+    private Animations animations;
+
+    private Sounds sounds;
+
+    // to help make sure we only have one instance
     public static GameController Instance
     {
         get
@@ -50,6 +57,8 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         coreLogic = new ShellGameLogic(itemContainers.Length, numberOfStrikes);
+
+        animations = new Animations(animatedObject);
     }
 
 
@@ -58,7 +67,11 @@ public class GameController : MonoBehaviour
     {
         FindTextObjects();
 
+        SetupAudioSource();
+
         HookupCoreLogicEvents();
+
+        animations.AssignAnimators();
 
         HighScore.LoadHighScore();
 
@@ -75,29 +88,39 @@ public class GameController : MonoBehaviour
         highScoreText = GameObject.FindGameObjectWithTag(Res.HighScoreText).GetComponent<TextMesh>();
     }
 
+    private void SetupAudioSource()
+    {
+        sounds = new Sounds(GameObject.FindGameObjectWithTag(Res.ItemAudioSource).GetComponent<AudioSource>());
+    }
+
     private void StartTurn()
     {
         // Prepare items for the new turn and loop through the containers and make sure the peas are covered up
         // Hide the pea from the contianer so user can't see it, or cheat
         PrepareItemsForTurn();
-        
+
         HideStrikeText();
 
         // Animate items 
+        animations.AnimateItems();
 
         // Play animation sounds
+        sounds.PlayItemShufflingSound();
 
-        // Reset items
+    }
+
+    // reset items
+    public void ResetItems()
+    {
         coreLogic.ResetItems();
-
     }
 
     private void PrepareItemsForTurn()
     {
-        for (int i = 0; i < itemContainers.Length; i++)  // Looping foreach box items 
+        for (int i = 0; i < itemContainers.Length; i++) // Looping foreach box items 
         {
             itemContainers[i].GetComponent<MeshRenderer>().enabled = true;  // Make sure Mesh on boxes are enabled, to prevent player from seeing the pea
-            itemContainers[i].transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;  // This makes sure all the peas are hidden
+            itemContainers[i].transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false; // This makes sure all the peas are hidden
         }
     }
 
@@ -137,24 +160,31 @@ public class GameController : MonoBehaviour
 
     private void CoreLogic_GameOver(object sender, EventArgs e)
     {
+        sounds.PlayGameOverSound();
         // Used for displaying the score and current strikes when game over 
         Debug.Log($"GAME OVER. Score: {score} Strikes: {coreLogic.Strikes}");
 
-        HighScore.Value = score;  // Will update the Highscore permanently if better then previous highscore 
+        
+
+        HighScore.Value = score; // Will update the Highscore permanently if better then previous highscore 
         HighScore.SaveHighScore();
+        sounds.PlayGameOverSound();
+        score = 0; // Resetting score to zero, for next game
+        UpdateScore(); // this will display 0 for the player 
 
-        score = 0;  // Resetting score to zero, for next game
-        UpdateScore();  // this will display 0 for the player 
-
-        strikeTextStringBuilder.Clear();  // getting rid of all the strikes in striketext
+        strikeTextStringBuilder.Clear(); // getting rid of all the strikes in striketext
     }
 
-    private void CoreLogic_ResetComplete(object sender, EventArgs e)
+    private void CoreLogic_ResetComplete(object sender, EventArgs e)  // User clicking on item will activate this if the pea is inside
     {
         Debug.Log("Reset Complete");
+
+        animations.StopAnimations();
+
+        sounds.StopItemShufflingSound();
     }
 
-    private void CoreLogic_SelectedItem(object sender, ItemEventArgs e)  // User clicking on item will activate this if the pea is inside
+    private void CoreLogic_SelectedItem(object sender, ItemEventArgs e)
     {
         Debug.Log($"Selected Item: {e.Id}");
 
@@ -162,33 +192,38 @@ public class GameController : MonoBehaviour
         InputManager.Instance.PushInputDisable();
 
         // Show the pea / insert item
-        itemContainers[e.Id].transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;  // Will show the pea to user
+        itemContainers[e.Id].transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true; // Will show the pea to user
     }
 
-    private void CoreLogic_CheckingItem(object sender, ItemEventArgs e)  // User clicking on item will activate this if the pea is not inside
+    private void CoreLogic_CheckingItem(object sender, ItemEventArgs e) // User clicking on item will activate this if the pea is not inside
     {
         Debug.Log($"Checking Item: {e.Id}");
-        itemContainers[e.Id].GetComponent<MeshRenderer>().enabled = false;  // This removes the Mesh from the box making insides visiable for user 
+        itemContainers[e.Id].GetComponent<MeshRenderer>().enabled = false; // This removes the Mesh from the box making insides visiable for user
     }
 
     private void CoreLogic_MatchNotMade(object sender, NoMatchEventArgs e)
     {
         Debug.Log($"No Match Made. IsStrike: {e.IsStrike}");
 
-        if (e.IsStrike)  // Prevent player from seeing strike if the just get first on wrong, but second guess right 
+        sounds.PlayMatchNotMadeSound();
+
+        if (e.IsStrike) // Prevent player from seeing strike if the just get first on wrong, but second guess right
         {
-            ShowStrikeText();  // This will show strike X to user 
+            ShowStrikeText(); // This will show strike X to user
+            sounds.PlayGameOverSound();
         }
     }
 
     private void CoreLogic_MatchMade(object sender, MatchEventArgs e)
     {
-        score += e.Score;  // Adds to your points, Yeah You!
+        score += e.Score; // Adds to your points, Yeah You!
 
-        HighScore.Value = score;  // Will update the Highscore if better then previous highscore 
+        sounds.PlayMatchMadeSound();
+
+        HighScore.Value = score; // Will update the Highscore if better then previous highscore 
         UpdateHighScore();
 
-        UpdateScore();  // Calls the method to update your score when doing well 
+        UpdateScore(); // Calls the method to update your score when doing well 
         Debug.Log($"Match Made. Id: {e.Id} Score: {e.Score} Total Score: {score}");
     }
 
@@ -204,13 +239,13 @@ public class GameController : MonoBehaviour
         highScoreText.text = $"{Res.HighScore}{HighScore.Value}";
     }
 
-    private void ShowStrikeText() 
+    private void ShowStrikeText()
     {
         strikeTextStringBuilder.Append(Res.StrikeX); // adding the new strike to strikeText
 
-        strikeText.text = strikeTextStringBuilder.ToString();  // Setting the strikeText's text 
+        strikeText.text = strikeTextStringBuilder.ToString(); // Setting the strikeText's text
 
-        strikeText.gameObject.SetActive(true);  // allowing user to finially see it 
+        strikeText.gameObject.SetActive(true); // allowing user to finially see it 
     }
 
     // This will hide strike text ( X X X) until another method activates it for the user to see. 
@@ -220,10 +255,10 @@ public class GameController : MonoBehaviour
     }
 
     // used for when the user clicks in game 
-    public void CheckForItem(int itemId)  
+    public void CheckForItem(int itemId)
     {
         Debug.Log($"Check for pea: {itemId}");
-        coreLogic.CheckForItem(itemId);  // Will raise MatchMade or MatchNotMade in CoreLogic\ShellGameLogic.cs
+        coreLogic.CheckForItem(itemId); // Will raise MatchMade or MatchNotMade in CoreLogic\ShellGameLogic.cs
     }
 
     // If you do events, make sure you also distroy them when done with them

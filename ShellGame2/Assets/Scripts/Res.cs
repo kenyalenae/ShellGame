@@ -18,5 +18,15 @@ public static class Res
     public static readonly string HighScore = "High Score: ";
     public static readonly string StrikeX = " X";
 
+    public static readonly string InMotion = "InMotion";
+
+    public static readonly string ItemAudioSource = "ItemAudioSource";
+
+    public static readonly string ItemShufflingClip = "Audio/BoxSliding";
+
+    public static readonly string MatchMadeClip = "Audio/CorrectAnswer";
+    public static readonly string MatchNotMadeClip = "Audio/WrongAnswer";
+    public static readonly string GameOverClip = "Audio/GameOver";
+
 }
 

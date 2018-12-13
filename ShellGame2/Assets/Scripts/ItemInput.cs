@@ -9,7 +9,7 @@ public class ItemInput : MonoBehaviour, IInputClickHandler
     [SerializeField]
     private int itemId;
 
-    //            \/ used when you tap an item (box/shell) in the game, such as when you click the trigger 
+    //            \/ used when you tap an item (box/shell) in the game, such as when you click the trigger
     public void OnInputClicked(InputClickedEventData eventData)
     {
         // method in GameController that does if user clicked 
